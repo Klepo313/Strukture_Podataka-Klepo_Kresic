@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ZDK1.c" />
     <ClCompile Include="ZDK_2.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="studenti.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

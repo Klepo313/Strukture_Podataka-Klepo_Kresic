@@ -18,5 +18,11 @@
     <ClCompile Include="ZDK_2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ZDK1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="studenti.txt" />
   </ItemGroup>
 </Project>
