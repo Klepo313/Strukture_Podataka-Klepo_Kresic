@@ -41,7 +41,7 @@ void ispisStudenti(Student* studenti, int br) {
 }
 
 int main() {
-    FILE* f = fopen("studenti.txt", "r");
+    FILE* f = fopen("../studenti.txt", "r");
     if (f == NULL) {
         printf("Ne mogu otvoriti datoteku 'studenti.txt'.");
         return 1;
