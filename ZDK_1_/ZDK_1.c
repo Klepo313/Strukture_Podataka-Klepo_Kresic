@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Student{
+typedef struct Student {
     char ime[100];
     char prezime[100];
     int bodovi;

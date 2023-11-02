@@ -15,12 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\studenti.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\ZDK_1.c">
+    <ClCompile Include="ZDK_2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
