@@ -10,8 +10,71 @@ typedef struct Osoba {
     struct Osoba* next; //Ovo next sluzi za povezivanje lista međusobno
 } Osoba;
 
+Osoba* dodajNaPocetak(Osoba* head, const char ime[], const char prezime[], int god_rod);
+Osoba* dodajNaKraj(Osoba* head, const char ime[], const char prezime[], int god_rod);
+Osoba* pronadjiElement(Osoba* head, char prezime[]);
+void izbrisiElement(Osoba* head, const char ime[], const char prezime[], int god_rod);
+Osoba* dodajIza(Osoba* head, const char ime[], const char prezime[], int god_rod, const char tr_prezime[]);
+Osoba* dodajIspred(Osoba* head, const char ime[], const char prezime[], int god_rod, const char tr_prezime[]);
+void ispisListe(Osoba* head);
+
+int main() {
+    Osoba* head, * pronadji_element;
+    head = (Osoba*)malloc(sizeof(Osoba));
+    pronadji_element = (Osoba*)malloc(sizeof(Osoba)); //Ovo sam samo kreira novu listu da ne radim sve u jednoj, mada je ista stvar
+    head->next = NULL;
+    pronadji_element = NULL;
+
+    if (head == NULL){
+        printf("GRESKA\n"); return -1;
+    }
+    if (pronadji_element) {
+        printf("GRESKA\n"); return -1;
+    }
+    //Dodavanje na pocetak
+    head = dodajNaPocetak(head, "Ana", "Pavic", 1999);
+    head = dodajNaPocetak(head, "Ivan", "Mekic", 1999);
+    head = dodajNaPocetak(head, "Ante", "Maldic", 1999);
+
+    printf("Lista:\n");
+    ispisListe(head);
+
+    //Dodavanje na kraj
+    head = dodajNaKraj(head, "Ivo", "Oop", 1989);
+    head = dodajNaKraj(head, "Nikola", "Ivic", 1979);
+
+    printf("\nLista 2:\n");
+    ispisListe(head);
+
+    //Trazenje elementa
+    char fPrezime[] = "Maldic";
+    pronadji_element = pronadjiElement(head, fPrezime);
+
+    if (pronadji_element != NULL)
+        printf("\nPronadjen: %s %s\t[%d]\n", pronadji_element->ime, pronadji_element->prezime, pronadji_element->godina_rodjenja);
+
+    //Brisanje elementa
+    izbrisiElement(head, "Nikola", "Ivic", 1979);
+    printf("\nLista 3:\n");
+    ispisListe(head);
+
+    //Dodavanje ispred odredjenog elementa
+    dodajIspred(head, "Mate", "Kovac", 1989, "Mekic");
+    printf("\nLista 4:\n");
+    ispisListe(head);
+
+    //Dodavanje iza odredjenog elementa
+    dodajIza(head, "Marino", "Maric", 1989, "Mekic");
+    printf("\nLista 4:\n");
+    ispisListe(head);
+
+    return 0;
+}
+
 Osoba* dodajNaPocetak(Osoba* head, const char ime[], const char prezime[], int god_rod) {
-    Osoba* nova = (Osoba*)malloc(sizeof(Osoba)); //Inicijliziranje novog elementa liste "nova" sta znaci nova osoba
+    Osoba* nova = NULL; //Inicijliziranje novog elementa liste "nova" sta znaci nova osoba
+    nova = (Osoba*)malloc(sizeof(Osoba));
+
     if (nova == NULL)
         printf("GRESKA!");
 
@@ -25,7 +88,8 @@ Osoba* dodajNaPocetak(Osoba* head, const char ime[], const char prezime[], int g
 }
 
 Osoba* dodajNaKraj(Osoba* head, const char ime[], const char prezime[], int god_rod) {
-    Osoba* nova = (Osoba*)malloc(sizeof(Osoba)); //nova osoba
+    Osoba* nova = NULL; //Inicijliziranje novog elementa liste "nova" sta znaci nova osoba
+    nova = (Osoba*)malloc(sizeof(Osoba));
     Osoba* temp = head;
 
     if (nova == NULL)
@@ -97,21 +161,24 @@ Osoba* dodajIspred(Osoba* head, const char ime[], const char prezime[], int god_
     if (nova == NULL)
         printf("GRESKA!");
 
+    if (temp == NULL)
+        printf("Greska!\n");
+
     strcpy(nova->ime, ime);
     strcpy(nova->prezime, prezime);
     nova->godina_rodjenja = god_rod;
 
     int prezimeNadjeno = 0;
 
-    while (temp != NULL && temp->next != NULL ) {
+    while (temp != NULL && temp->next != NULL) {
         if (strcmp(tr_prezime, temp->next->prezime) == 0) {
             prezimeNadjeno = 1;
             break;
         }
-        
+
         temp = temp->next;
     }
-    
+
     if (prezimeNadjeno) {
         nova->next = temp->next;
         temp->next = nova;
@@ -121,7 +188,7 @@ Osoba* dodajIspred(Osoba* head, const char ime[], const char prezime[], int god_
         printf("\nPrezime '%s' nije pronadjeno u listi.\n", tr_prezime);
         free(nova);
     }
-    
+
 }
 
 Osoba* dodajIza(Osoba* head, const char ime[], const char prezime[], int god_rod, const char tr_prezime[]) {
@@ -131,6 +198,8 @@ Osoba* dodajIza(Osoba* head, const char ime[], const char prezime[], int god_rod
 
     if (nova == NULL)
         printf("GRESKA!");
+    if (temp == NULL)
+        printf("Greska!\n");
 
     strcpy(nova->ime, ime);
     strcpy(nova->prezime, prezime);
@@ -163,55 +232,11 @@ void ispisListe(Osoba* head) {
     Osoba* temp = head;
     temp = temp->next;
 
+    if (temp == NULL)
+        printf("Greska!\n");
+
     while (temp != NULL) {
         printf("%s %s\t[%d]\n", temp->ime, temp->prezime, temp->godina_rodjenja);
         temp = temp->next;
     }
-}
-
-int main() {
-    Osoba* head, * pr_el;
-    head = (Osoba*)malloc(sizeof(Osoba));
-    pr_el = (Osoba*)malloc(sizeof(Osoba)); //Ovo sam samo kreira novu listu da ne radim sve u jednoj, mada je ista stvar
-    head->next = NULL;
-    pr_el = NULL;
-
-    //Dodavanje na pocetak
-    head = dodajNaPocetak(head, "Ana", "Pavic", 1999);
-    head = dodajNaPocetak(head, "Ivan", "Mekic", 1999);
-    head = dodajNaPocetak(head, "Ante", "Maldic", 1999);
-
-    printf("Lista:\n");
-    ispisListe(head);
-
-    //Dodavanje na kraj
-    head = dodajNaKraj(head, "Ivo", "Oop", 1989);
-    head = dodajNaKraj(head, "Nikola", "Ivic", 1979);
-
-    printf("\nLista 2:\n");
-    ispisListe(head);
-
-    //Trazenje elementa
-    char fPrezime[] = "Maldic";
-    pr_el = pronadjiElement(head, fPrezime);
-
-    if (pr_el != NULL)
-        printf("\nPronadjen: %s %s\t[%d]\n", pr_el->ime, pr_el->prezime, pr_el->godina_rodjenja);
-
-    //Brisanje elementa
-    izbrisiElement(head, "Nikola", "Ivic", 1979);
-    printf("\nLista 3:\n");
-    ispisListe(head);
-
-    //Dodavanje ispred odredjenog elementa
-    dodajIspred(head, "Mate", "Kovac", 1989, "Mekic");
-    printf("\nLista 4:\n");
-    ispisListe(head);
-
-    //Dodavanje iza odredjenog elementa
-    dodajIza(head, "Marino", "Maric", 1989, "Mekic");
-    printf("\nLista 4:\n");
-    ispisListe(head);
-
-    return 0;
 }

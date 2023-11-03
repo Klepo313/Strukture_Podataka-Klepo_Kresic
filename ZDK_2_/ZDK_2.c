@@ -10,8 +10,50 @@ typedef struct Osoba {
     struct Osoba* next; //Ovo next sluzi za povezivanje lista međusobno
 } Osoba;
 
+Osoba* dodajNaPocetak(Osoba* head, const char ime[], const char prezime[], int god_rod);
+Osoba* dodajNaKraj(Osoba* head, const char ime[], const char prezime[], int god_rod);
+Osoba* pronadjiElement(Osoba* head, char prezime[]);
+void izbrisiElement(Osoba* head, const char ime[], const char prezime[], int god_rod);
+void ispisListe(Osoba* head);
+
+int main() {
+    Osoba* head = NULL, * pr_el = NULL;
+    head = (Osoba*)malloc(sizeof(Osoba));
+    pr_el = (Osoba*)malloc(sizeof(Osoba)); //Ovo sam samo kreira novu listu da ne radim sve u jednoj, mada je ista stvar
+    head->next = NULL;
+    pr_el = NULL;
+
+    char fPrezime[] = "Maldic";
+
+    head = dodajNaPocetak(head, "Ana", "Pavic", 1999);
+    head = dodajNaPocetak(head, "Ivan", "Mekic", 1999);
+    head = dodajNaPocetak(head, "Ante", "Maldic", 1999);
+
+    printf("Lista:\n");
+    ispisListe(head);
+
+    head = dodajNaKraj(head, "Ivo", "Oop", 1989);
+    head = dodajNaKraj(head, "Nikola", "Ivic", 1979);
+
+    printf("\nLista 2:\n");
+    ispisListe(head);
+
+    pr_el = pronadjiElement(head, fPrezime);
+
+    if (pr_el != NULL)
+        printf("\nPronadjen: %s %s\t[%d]\n", pr_el->ime, pr_el->prezime, pr_el->godina_rodjenja);
+
+    izbrisiElement(head, "Nikola", "Ivic", 1979);
+    printf("\nLista 3:\n");
+    ispisListe(head);
+
+    return 0;
+}
+
 Osoba* dodajNaPocetak(Osoba* head, const char ime[], const char prezime[], int god_rod) {
-    Osoba* nova = (Osoba*)malloc(sizeof(Osoba)); //Inicijliziranje novog elementa liste "nova" sta znaci nova osoba
+    Osoba* nova = NULL; //Inicijliziranje novog elementa liste "nova" sta znaci nova osoba
+    nova = (Osoba*)malloc(sizeof(Osoba));
+
     if (nova == NULL)
         printf("GRESKA!");
 
@@ -25,7 +67,8 @@ Osoba* dodajNaPocetak(Osoba* head, const char ime[], const char prezime[], int g
 }
 
 Osoba* dodajNaKraj(Osoba* head, const char ime[], const char prezime[], int god_rod) {
-    Osoba* nova = (Osoba*)malloc(sizeof(Osoba)); //nova osoba
+    Osoba* nova = NULL; //nova osoba
+    nova = (Osoba*)malloc(sizeof(Osoba));
     Osoba* temp = head;
 
     if (nova == NULL)
@@ -97,38 +140,4 @@ void ispisListe(Osoba* head) {
         printf("%s %s\t[%d]\n", temp->ime, temp->prezime, temp->godina_rodjenja);
         temp = temp->next;
     }
-}
-
-int main() {
-    Osoba* head, * pr_el;
-    head = (Osoba*)malloc(sizeof(Osoba));
-    pr_el = (Osoba*)malloc(sizeof(Osoba)); //Ovo sam samo kreira novu listu da ne radim sve u jednoj, mada je ista stvar
-    head->next = NULL;
-    pr_el = NULL;
-
-    char fPrezime[] = "Maldic";
-
-    head = dodajNaPocetak(head, "Ana", "Pavic", 1999);
-    head = dodajNaPocetak(head, "Ivan", "Mekic", 1999);
-    head = dodajNaPocetak(head, "Ante", "Maldic", 1999);
-
-    printf("Lista:\n");
-    ispisListe(head);
-
-    head = dodajNaKraj(head, "Ivo", "Oop", 1989);
-    head = dodajNaKraj(head, "Nikola", "Ivic", 1979);
-
-    printf("\nLista 2:\n");
-    ispisListe(head);
-
-    pr_el = pronadjiElement(head, fPrezime);
-
-    if (pr_el != NULL)
-        printf("\nPronadjen: %s %s\t[%d]\n", pr_el->ime, pr_el->prezime, pr_el->godina_rodjenja);
-
-    izbrisiElement(head, "Nikola", "Ivic", 1979);
-    printf("\nLista 3:\n");
-    ispisListe(head);
-
-    return 0;
 }
