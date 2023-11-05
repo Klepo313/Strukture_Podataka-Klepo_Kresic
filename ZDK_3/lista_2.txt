@@ -1,0 +1,6 @@
+IME		PREZIME		GODINA_RODJENJA
+Ante	Maldic		1999
+Mateo	Kovac		1989
+Ivan	Mekic		1999
+Marino	Maric		1989
+Ivona	Opara		1989

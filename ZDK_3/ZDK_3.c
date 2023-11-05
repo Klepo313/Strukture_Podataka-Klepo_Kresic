@@ -18,21 +18,35 @@ Osoba* dodajIza(Osoba* head, const char ime[], const char prezime[], int god_rod
 Osoba* dodajIspred(Osoba* head, const char ime[], const char prezime[], int god_rod, const char tr_prezime[]);
 void ispisListe(Osoba* head);
 
+void upisiListuUdatoteku(Osoba* head, FILE *file);
+int ispisiListuIzDatoteke(FILE* file);
+
 int main() {
-    Osoba* head, * pronadji_element;
+    Osoba* head, *pronadji_element, *datoteka_lista;
+
     head = (Osoba*)malloc(sizeof(Osoba));
-    pronadji_element = (Osoba*)malloc(sizeof(Osoba)); //Ovo sam samo kreira novu listu da ne radim sve u jednoj, mada je ista stvar
+    pronadji_element = (Osoba*)malloc(sizeof(Osoba)); 
+    //datoteka_lista = (Osoba*)malloc(sizeof(Osoba)); //Ovo sam samo kreira novu listu da ne radim sve u jednoj, mada je ista stvar
+    
     head->next = NULL;
     pronadji_element = NULL;
+    //datoteka_lista->next = NULL;
 
     if (head == NULL){
         printf("GRESKA\n"); return -1;
     }
-    if (pronadji_element) {
-        printf("GRESKA\n"); return -1;
+
+    //Inicijalizacija file-a 'lista.txt'
+    FILE* lista = NULL, *lista_read = NULL;
+    lista = fopen("lista.txt", "w");
+    lista_read = fopen("lista_2.txt", "r");
+    if (lista == NULL || lista_read == NULL) {
+        printf("Greska u otvaranju datoteke.\n");
+        return -1;
     }
+
     //Dodavanje na pocetak
-    head = dodajNaPocetak(head, "Ana", "Pavic", 1999);
+    head = dodajNaPocetak(head, "Amela", "Pavic", 1999);
     head = dodajNaPocetak(head, "Ivan", "Mekic", 1999);
     head = dodajNaPocetak(head, "Ante", "Maldic", 1999);
 
@@ -40,7 +54,7 @@ int main() {
     ispisListe(head);
 
     //Dodavanje na kraj
-    head = dodajNaKraj(head, "Ivo", "Oop", 1989);
+    head = dodajNaKraj(head, "Ivona", "Opara", 1989);
     head = dodajNaKraj(head, "Nikola", "Ivic", 1979);
 
     printf("\nLista 2:\n");
@@ -59,7 +73,7 @@ int main() {
     ispisListe(head);
 
     //Dodavanje ispred odredjenog elementa
-    dodajIspred(head, "Mate", "Kovac", 1989, "Mekic");
+    dodajIspred(head, "Mateo", "Kovac", 1989, "Mekic");
     printf("\nLista 4:\n");
     ispisListe(head);
 
@@ -68,6 +82,13 @@ int main() {
     printf("\nLista 4:\n");
     ispisListe(head);
 
+    //Upisivanje liste u datoteku
+    upisiListuUdatoteku(head, lista);
+
+    //Ispis liste iz datoteke
+    ispisiListuIzDatoteke(lista_read);
+    
+    fclose(lista);
     return 0;
 }
 
@@ -104,13 +125,13 @@ Osoba* dodajNaKraj(Osoba* head, const char ime[], const char prezime[], int god_
     }                               //  Ovde provjeravam koji element ima vezu (next) na NULL, odnosno na onaj element koji je 
                                     //  zadnji element liste (zadnji element ima vezu NULL). Kada nađe NULL element, prekida se while i nastavlja kod dalje
     temp->next = nova;
-    nova->next = NULL; //Na sličan način se ovde veze prespajaju, samo šta se ovde dodaje zadnji element
+    nova->next = NULL; //Na slican nacin se ovde veze prespajaju, samo šta se ovde dodaje zadnji element
     return head; //Vraćanje prvog elementa liste
 }
 
 Osoba* pronadjiElement(Osoba* head, char prezime[]) {
     Osoba* temp = head;
-    temp = temp->next; //Ovime odma mičem vezu sa heada na prvi element liste jer head nema nikakve atribute kao ostali elementi
+    temp = temp->next; //Ovime odma micem vezu sa heada na prvi element liste jer head nema nikakve atribute kao ostali elementi
 
     if (temp == NULL) {
         printf("Lista je prazna!\n");
@@ -240,3 +261,77 @@ void ispisListe(Osoba* head) {
         temp = temp->next;
     }
 }
+
+void upisiListuUdatoteku(Osoba* head, FILE *file) {
+    Osoba* temp = head;
+    temp = temp->next;
+
+    if (temp == NULL)
+        printf("Greska. Lista je prazna.\n");
+
+    fprintf(file, "IME\t\tPREZIME\t\tGODINA_RODJENJA\n");
+
+    while (temp != NULL){
+        fprintf(file, "%s\t%s\t\t%d\n", temp->ime, temp->prezime, temp->godina_rodjenja);
+        temp = temp->next;
+    }
+
+    printf("\nLista je upisana u datoteku 'lista.txt'.\n");
+}
+
+int ispisiListuIzDatoteke(FILE* file) {
+    Osoba* head = NULL;  // Glava liste za ucitavanje
+    Osoba* temp = NULL;  // Trenutni cvor za iteraciju kroz listu
+
+    char ime[50] = "/", prezime[50] = "/";
+    int godina_rodjenja = 0000;
+
+    // Preskoči prvu liniju
+    char c[1024];
+    if (fgets(c, sizeof(c), file) == NULL) {
+        printf("Datoteka je prazna ili ne može se pročitati.\n");
+        return 0;
+    }
+
+    while (fscanf(file, "%s\t%s\t%d", ime, prezime, &godina_rodjenja) == 3) {
+        Osoba* nova = (Osoba*)malloc(sizeof(Osoba));
+
+        if (nova == NULL) {
+            printf("Greška pri alokaciji memorije.\n");
+            fclose(file);
+            return 0;
+        }
+
+        strcpy(nova->ime, ime);
+        strcpy(nova->prezime, prezime);
+        nova->godina_rodjenja = godina_rodjenja;
+        nova->next = NULL;
+
+        if (head == NULL) {
+            head = nova;
+            temp = nova;
+        }
+        else {
+            temp->next = nova;
+            temp = nova;
+        }
+    }
+
+    if (head == NULL) {
+        printf("Lista iz datoteke je prazna.\n");
+    }
+    else {
+        printf("\nLista iz datoteke:\n");
+        ispisListe(head);
+    }
+
+    // Oslobodi memoriju alociranu za listu iz datoteke
+    while (head != NULL) {
+        Osoba* brisi = head;
+        head = head->next;
+        free(brisi);
+    }
+
+    return 1;
+}
+

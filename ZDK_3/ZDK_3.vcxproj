@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="ZDK_3.c" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="lista.txt" />
+    <Text Include="lista_2.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
