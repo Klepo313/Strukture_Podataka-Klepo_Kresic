@@ -11,7 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_2", "ZDK_2_\ZDK_2_.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_polinomi", "ZDK_polinomi\ZDK_polinomi.vcxproj", "{ADEF937C-F8DB-49F8-AD0B-70B9CA3883E1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK4", "ZDK4\ZDK4.vcxproj", "{CF2EB72F-B7CF-4555-B64C-1F48CC9E6327}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_4", "ZDK4\ZDK4.vcxproj", "{CF2EB72F-B7CF-4555-B64C-1F48CC9E6327}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_5", "ZDK_5\ZDK_5.vcxproj", "{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{CF2EB72F-B7CF-4555-B64C-1F48CC9E6327}.Release|x64.Build.0 = Release|x64
 		{CF2EB72F-B7CF-4555-B64C-1F48CC9E6327}.Release|x86.ActiveCfg = Release|Win32
 		{CF2EB72F-B7CF-4555-B64C-1F48CC9E6327}.Release|x86.Build.0 = Release|Win32
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Debug|x64.ActiveCfg = Debug|x64
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Debug|x64.Build.0 = Debug|x64
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Debug|x86.ActiveCfg = Debug|Win32
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Debug|x86.Build.0 = Debug|Win32
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Release|x64.ActiveCfg = Release|x64
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Release|x64.Build.0 = Release|x64
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Release|x86.ActiveCfg = Release|Win32
+		{0D8E57B6-A2A0-4AEB-88DD-03686FC685FF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
