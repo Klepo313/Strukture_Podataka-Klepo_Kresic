@@ -35,7 +35,7 @@ Node Pop(Stack);
 void main()
 {
 	char instr[20], ime[10], naredba[10], path[100];
-	char* i, * j;
+	char* i = { NULL } , * j = { NULL };
 	dir root;
 	struct SimStack S;
 
@@ -130,19 +130,19 @@ void IspisDir(Node N, char* path)
 
 Node IzadjiDir(Node N, char* path, Stack S)
 {
-	Node temp;
-	char* a;
+	Node temp = NULL;
+	char* a = {NULL};
 
 	temp = Pop(S);
 	if (NULL == temp)
 	{
-		printf("Nalazimo se u root direktoriju!\nIz njega se ne moze izaci!");
+		printf("Nalazimo se u root direktoriju!");
 		return N;
 	}
 	else
 	{
-		a = strrchr(path, '\\');
-		*a = 0;
+		/*a = strrchr(path, '\\');
+		*a = 0;*/
 
 		a = strrchr(path, '\\');
 		*(a + 1) = 0;
@@ -155,7 +155,7 @@ Node IzadjiDir(Node N, char* path, Stack S)
 Node UdjiDir(Node N, char* ime, char* path, Stack S)
 {
 	Node temp = N->Child;
-	char* a;
+	char* a = { NULL };
 
 
 	while (temp != NULL && strcmp(temp->ime, ime) != 0)
@@ -177,7 +177,7 @@ Node UdjiDir(Node N, char* ime, char* path, Stack S)
 
 void StvoriDir(Node N, char* ime)
 {
-	Node q;
+	Node q = NULL;
 
 	q = (Node)malloc(sizeof(dir));
 	q->Child = NULL;
@@ -201,7 +201,7 @@ void StvoriDir(Node N, char* ime)
 
 void Push(Stack S, Node T)
 {
-	Stack q;
+	Stack q = NULL;
 
 	q = (Stack)malloc(sizeof(struct SimStack));
 
@@ -219,7 +219,7 @@ void Push(Stack S, Node T)
 
 Node Pop(Stack S)
 {
-	Node q;
+	Node q = NULL;
 	Stack temp;
 
 	if (NULL == S->Next)
