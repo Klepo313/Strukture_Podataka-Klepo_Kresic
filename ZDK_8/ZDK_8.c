@@ -4,44 +4,44 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef struct treenode {
+typedef struct BinaryTreenode {
     int value;
-    struct treenode* left;
-    struct treenode* right;
-} treenode;
+    struct BinaryTreenode* left;
+    struct BinaryTreenode* right;
+} BinaryTreenode;
 
 // Stvaranje novog cvora
-treenode* createnode(int value);
+BinaryTreenode* createnode(int value);
 
 // Umetanje broja u stablo
-bool insertnumber(treenode** rootptr, int value);
+bool insertnumber(BinaryTreenode** rootptr, int value);
 
 // Pretraga broja u stablu
-bool findnumber(treenode* root, int value);
+bool findnumber(BinaryTreenode* root, int value);
 
 // Ispis stabla
-void printtree(treenode* root);
+void printtree(BinaryTreenode* root);
 
 // Inorder ispis
-void inorder(treenode* root);
+void inorder(BinaryTreenode* root);
 
 // Preorder ispis
-void preorder(treenode* root);
+void preorder(BinaryTreenode* root);
 
 // Postorder ispis
-void postorder(treenode* root);
+void postorder(BinaryTreenode* root);
 
 // Ispis tabova ovisno o razini cvora
 void printtabs(int numtabs);
 
 // Rekurzivni ispis stabla
-void printtree_rec(treenode* root, int level);
+void printtree_rec(BinaryTreenode* root, int level);
 
 // Rekurzivna funckija za oslobađanje memorije za cvorove stabla
-void freetree(treenode* root);
+void freetree(BinaryTreenode* root);
 
 int main() {
-    treenode* root = NULL;
+    BinaryTreenode* root = NULL;
 
     // Umetanje brojeva u binarno stablo
     insertnumber(&root, 14);
@@ -85,8 +85,8 @@ int main() {
     return 0;
 }
 
-treenode* createnode(int value) {
-    treenode* result = malloc(sizeof(treenode));
+BinaryTreenode* createnode(int value) {
+    BinaryTreenode* result = malloc(sizeof(BinaryTreenode));
     if (result != NULL) {
         result->left = NULL;
         result->right = NULL;
@@ -95,8 +95,8 @@ treenode* createnode(int value) {
     return result;
 }
 
-bool insertnumber(treenode** rootptr, int value) {
-    treenode* root = *rootptr;
+bool insertnumber(BinaryTreenode** rootptr, int value) {
+    BinaryTreenode* root = *rootptr;
     if (root == NULL) {
         // Stablo/prvi cvor je prazan
         (*rootptr) = createnode(value);
@@ -112,7 +112,7 @@ bool insertnumber(treenode** rootptr, int value) {
         return insertnumber(&(root->right), value);
 }
 
-bool findnumber(treenode* root, int value) {
+bool findnumber(BinaryTreenode* root, int value) {
     if (root == NULL)
         return false;
     if (root->value == value)
@@ -126,11 +126,11 @@ bool findnumber(treenode* root, int value) {
     return false; //mozda nepotrebno, dodano cisto radi jasnoce
 }
 
-void printtree(treenode* root) {
+void printtree(BinaryTreenode* root) {
     printtree_rec(root, 0);
 }
 
-void printtree_rec(treenode* root, int level) {
+void printtree_rec(BinaryTreenode* root, int level) {
     if (root == NULL) {
         printtabs(level);
         printf("<NULL>\n");
@@ -153,7 +153,7 @@ void printtabs(int numtabs) {
         printf("\t");
 }
 
-void inorder(treenode* root) {
+void inorder(BinaryTreenode* root) {
     if (root != NULL) {
         inorder(root->left);
         printf("%d ", root->value);
@@ -161,7 +161,7 @@ void inorder(treenode* root) {
     }
 }
 
-void preorder(treenode* root) {
+void preorder(BinaryTreenode* root) {
     if (root != NULL) {
         printf("%d ", root->value);
         preorder(root->left);
@@ -169,7 +169,7 @@ void preorder(treenode* root) {
     }
 }
 
-void postorder(treenode* root) {
+void postorder(BinaryTreenode* root) {
     if (root != NULL) {
         postorder(root->left);
         postorder(root->right);
@@ -177,7 +177,7 @@ void postorder(treenode* root) {
     }
 }
 
-void freetree(treenode* root) {
+void freetree(BinaryTreenode* root) {
     if (root != NULL) {
         freetree(root->left);
         freetree(root->right);
