@@ -10,32 +10,35 @@ typedef struct treenode {
     struct treenode* right;
 } treenode;
 
-// Prototip funkcije za stvaranje novog čvora
+// Stvaranje novog cvora
 treenode* createnode(int value);
 
-// Prototip funkcije za umetanje broja u stablo
+// Umetanje broja u stablo
 bool insertnumber(treenode** rootptr, int value);
 
-// Prototip funkcije za pretragu broja u stablu
+// Pretraga broja u stablu
 bool findnumber(treenode* root, int value);
 
-// Prototip funkcije za ispis stabla
+// Ispis stabla
 void printtree(treenode* root);
 
-// Prototip funkcije za inorder ispis
+// Inorder ispis
 void inorder(treenode* root);
 
-// Prototip funkcije za preorder ispis
+// Preorder ispis
 void preorder(treenode* root);
 
-// Prototip funkcije za postorder ispis
+// Postorder ispis
 void postorder(treenode* root);
 
-// Funkcija za ispis tabova ovisno o razini čvora
+// Ispis tabova ovisno o razini cvora
 void printtabs(int numtabs);
 
-// Funkcija za rekurzivni ispis stabla
+// Rekurzivni ispis stabla
 void printtree_rec(treenode* root, int level);
+
+// Rekurzivna funckija za oslobađanje memorije za cvorove stabla
+void freetree(treenode* root);
 
 int main() {
     treenode* root = NULL;
@@ -70,19 +73,18 @@ int main() {
 
     // Pretraga brojeva u stablu
     printf("Search Results:\n");
-    printf("%d (%s)\n", 16, findnumber(root, 16) ? "Found" : "Not Found");
-    printf("%d (%s)\n", 15, findnumber(root, 15) ? "Found" : "Not Found");
-    printf("%d (%s)\n", 5, findnumber(root, 5) ? "Found" : "Not Found");
-    printf("%d (%s)\n", 156, findnumber(root, 156) ? "Found" : "Not Found");
-    printf("%d (%s)\n", 1, findnumber(root, 1) ? "Found" : "Not Found");
+    printf("%d\t(%s)\n", 16, findnumber(root, 16) ? "Found" : "Not Found");
+    printf("%d\t(%s)\n", 15, findnumber(root, 15) ? "Found" : "Not Found");
+    printf("%d\t(%s)\n", 5, findnumber(root, 5) ? "Found" : "Not Found");
+    printf("%d\t(%s)\n", 156, findnumber(root, 156) ? "Found" : "Not Found");
+    printf("%d\t(%s)\n", 1, findnumber(root, 1) ? "Found" : "Not Found");
 
-    // Oslobađanje memorije
-    // ...
+    // Oslobadjanje memorije
+    freetree(root);
 
     return 0;
 }
 
-// Implementacija funkcije za stvaranje novog čvora
 treenode* createnode(int value) {
     treenode* result = malloc(sizeof(treenode));
     if (result != NULL) {
@@ -93,16 +95,15 @@ treenode* createnode(int value) {
     return result;
 }
 
-// Implementacija funkcije za umetanje broja u stablo
 bool insertnumber(treenode** rootptr, int value) {
     treenode* root = *rootptr;
     if (root == NULL) {
-        // Stablo/prvi čvor je prazan
+        // Stablo/prvi cvor je prazan
         (*rootptr) = createnode(value);
         return true;
     }
     if (value == root->value) {
-        // Ne čini ništa ako se broj već nalazi u stablu
+        // Ako je broj vec u stablu, preskoci
         return false;
     }
     if (value < root->value)
@@ -111,7 +112,6 @@ bool insertnumber(treenode** rootptr, int value) {
         return insertnumber(&(root->right), value);
 }
 
-// Implementacija funkcije za pretragu broja u stablu
 bool findnumber(treenode* root, int value) {
     if (root == NULL)
         return false;
@@ -123,15 +123,13 @@ bool findnumber(treenode* root, int value) {
     if (value > root->value)
         return findnumber(root->right, value);
 
-    return false; // Nepotrebno, ali dodano radi jasnosti
+    return false; //mozda nepotrebno, dodano cisto radi jasnoce
 }
 
-// Implementacija funkcije za ispis stabla
 void printtree(treenode* root) {
     printtree_rec(root, 0);
 }
 
-// Implementacija funkcije za rekurzivni ispis stabla
 void printtree_rec(treenode* root, int level) {
     if (root == NULL) {
         printtabs(level);
@@ -150,13 +148,11 @@ void printtree_rec(treenode* root, int level) {
     printtree_rec(root->right, level + 1);
 }
 
-// Implementacija funkcije za ispis tabova ovisno o razini čvora
 void printtabs(int numtabs) {
     for (int i = 0; i < numtabs; i++)
         printf("\t");
 }
 
-// Implementacija funkcije za inorder ispis
 void inorder(treenode* root) {
     if (root != NULL) {
         inorder(root->left);
@@ -165,7 +161,6 @@ void inorder(treenode* root) {
     }
 }
 
-// Implementacija funkcije za preorder ispis
 void preorder(treenode* root) {
     if (root != NULL) {
         printf("%d ", root->value);
@@ -174,11 +169,18 @@ void preorder(treenode* root) {
     }
 }
 
-// Implementacija funkcije za postorder ispis
 void postorder(treenode* root) {
     if (root != NULL) {
         postorder(root->left);
         postorder(root->right);
         printf("%d ", root->value);
+    }
+}
+
+void freetree(treenode* root) {
+    if (root != NULL) {
+        freetree(root->left);
+        freetree(root->right);
+        free(root);
     }
 }
