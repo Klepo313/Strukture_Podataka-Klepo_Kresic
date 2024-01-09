@@ -16,8 +16,11 @@ BinaryTreenode* createnode(int value);
 // Umetanje broja u stablo
 bool insertnumber(BinaryTreenode** rootptr, int value);
 
-// Pretraga broja u stablu
+// Pretraga broja u stablu kao bool
 bool findnumber(BinaryTreenode* root, int value);
+
+// Pretraga broja u stablu kao pokazivač na strukturu
+BinaryTreenode* findNode(BinaryTreenode* root, int value);
 
 // Ispis stabla
 void printtree(BinaryTreenode* root);
@@ -39,6 +42,9 @@ void printtree_rec(BinaryTreenode* root, int level);
 
 // Rekurzivna funckija za oslobađanje memorije za cvorove stabla
 void freetree(BinaryTreenode* root);
+
+// Brisanje elementa
+void deletenode(BinaryTreenode*, int);
 
 int main() {
     BinaryTreenode* root = NULL;
@@ -78,6 +84,16 @@ int main() {
     printf("%d\t(%s)\n", 5, findnumber(root, 5) ? "Found" : "Not Found");
     printf("%d\t(%s)\n", 156, findnumber(root, 156) ? "Found" : "Not Found");
     printf("%d\t(%s)\n", 1, findnumber(root, 1) ? "Found" : "Not Found");
+
+    // Brisanje elementa iz stabla
+    deletenode(root, 24);
+    printf("--");
+    deletenode(root, 19);
+    printf("Izbrisani broj 24 i 19\n");
+
+    // Ispis binarnog stabla
+    printf("\nNew Binary Tree:\n");
+    printtree(root);
 
     // Oslobadjanje memorije
     freetree(root);
@@ -182,5 +198,85 @@ void freetree(BinaryTreenode* root) {
         freetree(root->left);
         freetree(root->right);
         free(root);
+    }
+}
+
+BinaryTreenode* findNode(BinaryTreenode* root, int value) {
+    if (root == NULL)
+        return NULL;
+
+    if (root->value == value)
+        return root;
+
+    if (value < root->value)
+        return findNode(root->left, value);
+    if (value > root->value)
+        return findNode(root->right, value);
+
+    return NULL;
+}
+
+
+void deletenode(BinaryTreenode** rootptr, int value) {
+    BinaryTreenode* root = *rootptr;
+
+    if (root == NULL) {
+        // Stablo je prazno
+        printf("Tree is empty.\n");
+        return;
+    }
+
+    BinaryTreenode* parent = NULL;
+    BinaryTreenode* current = root;
+
+    // Traži element koji se treba izbrisati
+    while (current != NULL && current->value != value) {
+        parent = current;
+        if (value < current->value)
+            current = current->left;
+        else
+            current = current->right;
+    }
+
+    if (current == NULL) {
+        // Element nije pronađen u stablu
+        printf("Element not found in the tree.\n");
+        return;
+    }
+
+    // Slučaj 1: Element nema djece ili ima samo jedno dijete
+    if (current->left == NULL || current->right == NULL) {
+        BinaryTreenode* newChild = (current->left != NULL) ? current->left : current->right;
+
+        if (parent == NULL) {
+            // Element je korijen stabla
+            *rootptr = newChild;
+        }
+        else {
+            // Element je dijete roditelja
+            if (parent->left == current)
+                parent->left = newChild;
+            else
+                parent->right = newChild;
+        }
+
+        free(current);
+    }
+    // Slučaj 2: Element ima oba djeteta
+    else {
+        // Pronađi nasljednika (najmanji element u desnom podstablu)
+        BinaryTreenode* successorParent = current->right;
+        BinaryTreenode* successor = current->right;
+
+        while (successor->left != NULL) {
+            successorParent = successor;
+            successor = successor->left;
+        }
+
+        // Zamijeni vrijednost trenutnog čvora s vrijednosti nasljednika
+        current->value = successor->value;
+
+        // Ponovno poziva funkciju brisanja za nasljednika
+        deletenode(&successorParent->left, successor->value);
     }
 }
