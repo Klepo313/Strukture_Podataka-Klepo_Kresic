@@ -1,0 +1,6 @@
+﻿Skopje, 544086
+Bitola, 105644
+Kumanovo, 107745
+Prilep, 66686
+Ohrid, 42197
+Veles, 55508

@@ -1,0 +1,7 @@
+﻿Vienna, 1888776
+Graz, 291082
+Linz, 205726
+Salzburg, 15502
+Innsbruck, 132493
+Klagenfurt, 101403
+Villach, 61849
