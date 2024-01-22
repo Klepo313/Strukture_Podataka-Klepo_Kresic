@@ -1,0 +1,7 @@
+Zagreb, 802762
+Split, 178102
+Rijeka, 128384
+Osijek, 108048
+Zadar, 75015
+Pula, 57475
+Sibenik, 34253

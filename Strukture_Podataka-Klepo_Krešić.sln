@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_9", "ZDK_9\ZDK_9.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_10", "ZDK_10\ZDK_10.vcxproj", "{723278D0-820A-4CC3-B363-33D87629D404}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDK_11", "ZDK_11\ZDK_11.vcxproj", "{9387770F-5426-4490-BCD1-A34C3100A580}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -111,6 +113,14 @@ Global
 		{723278D0-820A-4CC3-B363-33D87629D404}.Release|x64.Build.0 = Release|x64
 		{723278D0-820A-4CC3-B363-33D87629D404}.Release|x86.ActiveCfg = Release|Win32
 		{723278D0-820A-4CC3-B363-33D87629D404}.Release|x86.Build.0 = Release|Win32
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Debug|x64.ActiveCfg = Debug|x64
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Debug|x64.Build.0 = Debug|x64
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Debug|x86.ActiveCfg = Debug|Win32
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Debug|x86.Build.0 = Debug|Win32
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Release|x64.ActiveCfg = Release|x64
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Release|x64.Build.0 = Release|x64
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Release|x86.ActiveCfg = Release|Win32
+		{9387770F-5426-4490-BCD1-A34C3100A580}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
