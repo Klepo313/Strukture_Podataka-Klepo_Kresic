@@ -34,6 +34,9 @@ void preorder(BinaryTreenode* root);
 // Postorder ispis
 void postorder(BinaryTreenode* root);
 
+// Levelorder ispis
+void levelorder(BinaryTreenode* root);
+
 // Ispis tabova ovisno o razini cvora
 void printtabs(int numtabs);
 
@@ -75,6 +78,11 @@ int main() {
     // Postorder ispis
     printf("POST-ORDER:\n");
     postorder(root);
+    printf("\n");
+
+    // Levelorder ispis
+    printf("LEVEL ORDER:\n");
+    levelorder(root);
     printf("\n\n");
 
     // Pretraga brojeva u stablu
@@ -191,6 +199,35 @@ void postorder(BinaryTreenode* root) {
         postorder(root->right);
         printf("%d ", root->value);
     }
+}
+
+void levelorder(BinaryTreenode* root) {
+    if (root == NULL)
+        return;
+
+    // Inicijalizacija reda za pohranu čvorova
+    BinaryTreenode** queue = NULL;
+    queue = (BinaryTreenode**)malloc(100 * sizeof(BinaryTreenode*));
+    int front = 0, rear = 0;
+
+    // Dodajemo korijenski čvor u red
+    queue[rear++] = root;
+
+    while (front < rear) {
+        // Trenutni čvor koji se obrađuje
+        BinaryTreenode* current = queue[front++];
+        printf("%d ", current->value);
+
+        // Dodaj lijevo dijete u red ako postoji
+        if (current->left != NULL)
+            queue[rear++] = current->left;
+
+        // Dodaj desno dijete u red ako postoji
+        if (current->right != NULL)
+            queue[rear++] = current->right;
+    }
+
+    free(queue);
 }
 
 void freetree(BinaryTreenode* root) {

@@ -1,6 +1,10 @@
 IME		PREZIME		GODINA_RODJENJA
+Jozef	Alovic		1992
 Ante	Maldic		1999
 Mateo	Kovac		1989
 Ivan	Mekic		1999
 Marino	Maric		1989
 Ivona	Opara		1989
+Pero	Podrug		1992
+Ante	Vlajic		1992
+Zoran	Zelic		1992

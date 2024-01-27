@@ -8,40 +8,49 @@ typedef struct Node {
 } Node;
 
 Node* newNode(int data);
-
 Node* insert(Node* root, int data);
-
 int replace(Node* root);
-
 void inorder(Node* root);
-
-void freeTree(Node* root);
+void postorder(Node* root);
+void levelorder(Node* root);
 
 int main() {
     Node* root = NULL;
     int arr[] = { 2, 5, 7, 8, 11, 1, 4, 2, 3, 7 };
     int n = sizeof(arr) / sizeof(arr[0]);
 
+    // a) Dodavanje elemenata u stablo
     for (int i = 0; i < n; i++) {
         root = insert(root, arr[i]);
     }
 
-    if (root != NULL) {
-        printf("Original Tree (Inorder): ");
-        inorder(root);
-        printf("\n");
+    // Ispisi stabla
+    printf("INORDER: ");
+    inorder(root);
+    printf("\n");
 
-        int sum = replace(root);
+    printf("POSTORDER: ");
+    postorder(root);
+    printf("\n");
 
-        printf("Updated Tree (Inorder): ");
-        inorder(root);
-        printf("\n");
+    printf("LEVELORDER: ");
+    levelorder(root);
+    printf("\n");
 
-        printf("Sum of Original Values: %d\n", sum);
-    }
+    // b) Zamjena vrijednosti sumom potomaka
+    replace(root);
+
+    // Ispisi modificiranog stabla
+    printf("\nUpdated Tree (INORDER): ");
+    inorder(root);
+    printf("\nUpdated Tree (POSTORDER): ");
+    postorder(root);
+    printf("\nUpdated Tree (LEVELORDER): ");
+    levelorder(root);
+    printf("\n");
 
     // Oslobađanje memorije
-    freeTree(root);
+    free(root);
 
     return 0;
 }
@@ -69,22 +78,48 @@ Node* insert(Node* root, int data) {
 
 int replace(Node* root) {
     if (root == NULL) return 0;
-    int old_val = root->data;
-    root->data = replace(root->left) + replace(root->right);
-    return root->data + old_val;
+
+    int leftSum = replace(root->left);
+    int rightSum = replace(root->right);
+
+    int oldVal = root->data;
+    root->data = leftSum + rightSum;
+
+    return root->data + oldVal;
 }
 
 void inorder(Node* root) {
-    if (root == NULL) return;
-    inorder(root->left);
-    printf("%d ", root->data);
-    inorder(root->right);
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
 }
 
-void freeTree(Node* root) {
+void postorder(Node* root) {
     if (root != NULL) {
-        freeTree(root->left);
-        freeTree(root->right);
-        free(root);
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+void levelorder(Node* root) {
+    if (root == NULL) return;
+
+    Node* queue[100];
+    int front = 0, rear = 0;
+
+    queue[rear++] = root;
+
+    while (front < rear) {
+        Node* current = queue[front++];
+        printf("%d ", current->data);
+
+        if (current->left != NULL)
+            queue[rear++] = current->left;
+
+        if (current->right != NULL)
+            queue[rear++] = current->right;
     }
 }

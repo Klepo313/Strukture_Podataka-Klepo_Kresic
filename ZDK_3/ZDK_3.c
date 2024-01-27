@@ -17,7 +17,7 @@ void izbrisiElement(Osoba* head, const char ime[], const char prezime[], int god
 Osoba* dodajIza(Osoba* head, const char ime[], const char prezime[], int god_rod, const char tr_prezime[]);
 Osoba* dodajIspred(Osoba* head, const char ime[], const char prezime[], int god_rod, const char tr_prezime[]);
 void ispisListe(Osoba* head);
-
+int sortedInsert(Osoba* head, char* ime, char* prezime);
 void upisiListuUdatoteku(Osoba* head, FILE *file);
 int ispisiListuIzDatoteke(FILE* file);
 
@@ -82,8 +82,16 @@ int main() {
     printf("\nLista 4:\n");
     ispisListe(head);
 
+    //Sortiani unos
+    sortedInsert(head, "Jozef", "Alovic", 1992);
+    sortedInsert(head, "Zoran", "Zelic", 1992);
+    sortedInsert(head, "Ante", "Vlajic", 1992);
+    sortedInsert(head, "Pero", "Podrug", 1992);
+
     //Upisivanje liste u datoteku
-    upisiListuUdatoteku(head, lista);
+    upisiListuUdatoteku(head, lista); 
+    printf("\nLista 4:\n");
+    ispisListe(head);
 
     //Ispis liste iz datoteke
     ispisiListuIzDatoteke(lista_read);
@@ -335,3 +343,32 @@ int ispisiListuIzDatoteke(FILE* file) {
     return 1;
 }
 
+int sortedInsert(Osoba* head, char* ime, char* prezime, int godina_rodjenja) {
+
+    Osoba* temp = head;
+    Osoba* novaOsoba = NULL;
+    novaOsoba = (Osoba*)malloc(sizeof(Osoba));
+
+    if (novaOsoba == NULL) {
+        printf("Greska pri alokaciji\n");
+        return -1;
+    }
+
+    strcpy(novaOsoba->prezime, prezime);
+    strcpy(novaOsoba->ime, ime);
+    novaOsoba->godina_rodjenja = godina_rodjenja;
+    novaOsoba->next = NULL;
+
+    if (temp->next == NULL || strcmp(novaOsoba->prezime, temp->next->prezime) < 0) {
+        novaOsoba->next = temp->next;
+        temp->next = novaOsoba;
+        return 0;
+    }
+    while (temp->next != NULL && strcmp(novaOsoba->prezime, temp->next->prezime) > 0)
+        temp = temp->next;
+
+    novaOsoba->next = temp->next;
+    temp->next = novaOsoba;
+
+    return 0;
+}
